@@ -16,37 +16,31 @@ public class ArrayStorage {
     }
 
     /**
-     * Appends resume to the end of Resumes storage (places it instead of the first null element)
+     * Appends resume to the end of Resumes storage
      */
     void save(Resume r) {
-        for (int i = 0; i <= size; i++) {
-            if (i == size) {
-                storage[i] = r;
-                size++;
-                break;
-            } else if (Objects.equals(storage[i].uuid, r.uuid)) {
+        for (int i = 0; i < size; i++) {
+            if (Objects.equals(storage[i].uuid, r.uuid)) {
                 System.out.printf("Резюме с uuid = '%s' уже имеется в storage. Введите уникальное значение uuid!\n", storage[i].uuid);
-                break;
+                return;
             }
         }
+        storage[size] = r;
+        size++;
     }
 
     /**
      * @return resume by uuid
      */
     Resume get(String uuid) {
-        int i;
-        for (i = 0; i <= size; i++) {
-            if (i == size) {
-                return null;
-            }
-            if (Objects.equals(storage[i].uuid, uuid)) break;
+        for (int i = 0; i < size; i++) {
+            if (Objects.equals(storage[i].uuid, uuid)) return storage[i];
         }
-        return storage[i];
+        return null;
     }
 
     /**
-     * Deletes resume by its uuid by shifting the rest of storage to the left
+     * Deletes resume by its uuid by replacing it by the last one
      */
     void delete(String uuid) {
         for (int i = 0; i < size; i++) {

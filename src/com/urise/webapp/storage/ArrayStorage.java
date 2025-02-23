@@ -1,16 +1,20 @@
+package com.urise.webapp.storage;
+
+import com.urise.webapp.model.Resume;
+
 import java.util.Objects;
 
 /**
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    Resume[] storage = new Resume[10000];
-    int size = 0;
+    private Resume[] storage = new Resume[10000];
+    private int size = 0;
 
     /**
      * Deletes all resumes in storage
      */
-    void clear() {
+    public void clear() {
         for (int i = 0; i < size; i++) storage[i] = null;
         size = 0;
     }
@@ -18,10 +22,10 @@ public class ArrayStorage {
     /**
      * Appends resume to the end of Resumes storage
      */
-    void save(Resume r) {
+    public void save(Resume r) {
         for (int i = 0; i < size; i++) {
-            if (Objects.equals(storage[i].uuid, r.uuid)) {
-                System.out.printf("Резюме с uuid = '%s' уже имеется в storage. Введите уникальное значение uuid!\n", storage[i].uuid);
+            if (Objects.equals(storage[i].getUuid(), r.getUuid())) {
+                System.out.printf("Резюме с uuid = '%s' уже имеется в storage. Введите уникальное значение uuid!\n", storage[i].getUuid());
                 return;
             }
         }
@@ -32,9 +36,9 @@ public class ArrayStorage {
     /**
      * @return resume by uuid
      */
-    Resume get(String uuid) {
+    public Resume get(String uuid) {
         for (int i = 0; i < size; i++) {
-            if (Objects.equals(storage[i].uuid, uuid)) return storage[i];
+            if (Objects.equals(storage[i].getUuid(), uuid)) return storage[i];
         }
         return null;
     }
@@ -42,9 +46,9 @@ public class ArrayStorage {
     /**
      * Deletes resume by its uuid by replacing it by the last one
      */
-    void delete(String uuid) {
+    public void delete(String uuid) {
         for (int i = 0; i < size; i++) {
-            if (Objects.equals(storage[i].uuid, uuid)) {
+            if (Objects.equals(storage[i].getUuid(), uuid)) {
                 storage[i] = storage[size - 1];
                 storage[size - 1] = null;
                 size--;
@@ -56,7 +60,7 @@ public class ArrayStorage {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
-    Resume[] getAll() {
+    public Resume[] getAll() {
         Resume[] resumes = new Resume[size];
         System.arraycopy(storage, 0, resumes, 0, size);
         return resumes;
@@ -65,7 +69,7 @@ public class ArrayStorage {
     /**
      * @return Resumes' count in storage (without null)
      */
-    int size() {
+    public int size() {
         return size;
     }
 }

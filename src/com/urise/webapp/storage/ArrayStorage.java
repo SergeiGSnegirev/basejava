@@ -10,20 +10,17 @@ import java.util.Objects;
  */
 public class ArrayStorage {
     private final int STORAGE_SIZE = 10000;
-    private Resume[] storage = new Resume[STORAGE_SIZE];
+    private final Resume[] storage = new Resume[STORAGE_SIZE];
     private int size = 0;
 
     /**
      * @return resume's position in storage by its uuid or -1 if it is not found
      */
-    private int getResumePosition(String uuid, boolean warning) {
+    private int findIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (Objects.equals(storage[i].getUuid(), uuid)) {
                 return i;
             }
-        }
-        if (warning) {
-            System.out.printf("ОШИБКА: Резюме с uuid = '%s' нет в storage!\n", uuid);
         }
         return -1;
     }
@@ -39,21 +36,22 @@ public class ArrayStorage {
     /**
      * Updates resume in storage
      */
-    public void update(Resume r) {
-        int i = getResumePosition(r.getUuid(), true);
-        if (i != -1) {
-            // stub, TBD what to update
-            storage[i] = r;
+    public void update(Resume resume) {
+        int index = findIndex(resume.getUuid());
+        if (index != -1) {
+            storage[index] = resume;
+        } else {
+            System.out.printf("ОШИБКА: Резюме с uuid = '%s' нет в storage!\n", resume.getUuid());
         }
     }
 
     /**
      * Appends resume to the end of Resumes storage
      */
-    public void save(Resume r) {
-        int i = getResumePosition(r.getUuid(), false);
-        if (i != -1) {
-            System.out.printf("ОШИБКА: Резюме с uuid = '%s' уже имеется в storage. ", storage[i].getUuid());
+    public void save(Resume resume) {
+        int index = findIndex(resume.getUuid());
+        if (index != -1) {
+            System.out.printf("ОШИБКА: Резюме с uuid = '%s' уже имеется в storage. ", storage[index].getUuid());
             System.out.println("Введите уникальное значение uuid!");
             return;
         }
@@ -61,7 +59,7 @@ public class ArrayStorage {
             System.out.printf("ОШИБКА: storage полностью заполнено, хранит %s резюме.\n", STORAGE_SIZE);
             return;
         }
-        storage[size] = r;
+        storage[size] = resume;
         size++;
     }
 
@@ -69,10 +67,11 @@ public class ArrayStorage {
      * @return resume by uuid
      */
     public Resume get(String uuid) {
-        int i = getResumePosition(uuid, true);
-        if (i != -1) {
-            return storage[i];
+        int index = findIndex(uuid);
+        if (index != -1) {
+            return storage[index];
         }
+        System.out.printf("ОШИБКА: Резюме с uuid = '%s' нет в storage!\n", uuid);
         return null;
     }
 
@@ -80,11 +79,13 @@ public class ArrayStorage {
      * Deletes resume by its uuid by replacing it by the last one
      */
     public void delete(String uuid) {
-        int i = getResumePosition(uuid, true);
-        if (i != -1) {
-            storage[i] = storage[size - 1];
+        int index = findIndex(uuid);
+        if (index != -1) {
+            storage[index] = storage[size - 1];
             storage[size - 1] = null;
             size--;
+        } else {
+            System.out.printf("ОШИБКА: Резюме с uuid = '%s' нет в storage!\n", uuid);
         }
     }
 

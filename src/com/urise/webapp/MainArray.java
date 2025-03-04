@@ -42,7 +42,6 @@ public class MainArray {
                     printAll();
                     break;
                 case "update":
-                    // stub, TBD what to update
                     r = new Resume();
                     r.setUuid(uuid);
                     ARRAY_STORAGE.update(r);

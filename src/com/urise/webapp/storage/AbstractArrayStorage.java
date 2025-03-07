@@ -21,7 +21,7 @@ public abstract class AbstractArrayStorage implements Storage {
     /**
      * Save resume to storage
      */
-    public void save(Resume resume) {
+    public final void save(Resume resume) {
         int index = findIndex(resume.getUuid());
         if (index >= 0) {
             System.out.printf("ОШИБКА: Резюме с uuid = '%s' уже имеется в storage.\n", resume.getUuid());
@@ -36,7 +36,7 @@ public abstract class AbstractArrayStorage implements Storage {
     /**
      * Updates resume in storage
      */
-    public void update(Resume resume) {
+    public final void update(Resume resume) {
         int index = findIndex(resume.getUuid());
         if (index >= 0) {
             storage[index] = resume;
@@ -48,7 +48,7 @@ public abstract class AbstractArrayStorage implements Storage {
     /**
      * @return resume by uuid
      */
-    public Resume get(String uuid) {
+    public final Resume get(String uuid) {
         int index = findIndex(uuid);
         if (index >= 0) {
             return storage[index];
@@ -60,10 +60,10 @@ public abstract class AbstractArrayStorage implements Storage {
     /**
      * Deletes resume from storage
      */
-    public void delete(String uuid) {
+    public final void delete(String uuid) {
         int index = findIndex(uuid);
         if (index >= 0) {
-            replaceResume(index);
+            relocateResume(index);
             storage[size - 1] = null; // clear the last stored resume
             size--;
         } else {
@@ -89,5 +89,5 @@ public abstract class AbstractArrayStorage implements Storage {
 
     protected abstract void storeResume(Resume resume, int index);
 
-    protected abstract void replaceResume(int index);
+    protected abstract void relocateResume(int index);
 }

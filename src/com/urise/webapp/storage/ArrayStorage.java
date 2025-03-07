@@ -32,7 +32,7 @@ public class ArrayStorage extends AbstractArrayStorage {
      * Remove resume by its index by replacing it on the last one
      */
     @Override
-    protected void replaceResume(int index) {
+    protected void relocateResume(int index) {
         storage[index] = storage[size - 1];
     }
 }

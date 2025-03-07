@@ -30,7 +30,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
      * Remove resume by shifting the rest to the left on its index
      */
     @Override
-    protected void replaceResume(int index) {
+    protected void relocateResume(int index) {
         System.arraycopy(storage, index + 1, storage, index, size - index - 1);
     }
 }

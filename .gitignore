@@ -1,7 +1,7 @@
 .idea
+lesson
 out
+lib
 *.iml
 log
-
-
-
+.gitignore

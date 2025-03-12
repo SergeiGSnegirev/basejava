@@ -1,5 +1,8 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.exception.ExistStorageException;
+import com.urise.webapp.exception.NotExistStorageException;
+import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -24,9 +27,9 @@ public abstract class AbstractArrayStorage implements Storage {
     public final void save(Resume resume) {
         int index = findIndex(resume.getUuid());
         if (index >= 0) {
-            System.out.printf("ОШИБКА: Резюме с uuid = '%s' уже имеется в storage.\n", resume.getUuid());
+            throw new ExistStorageException(resume.getUuid());
         } else if (size == STORAGE_LIMIT) {
-            System.out.printf("ОШИБКА: storage полностью заполнено, хранит %s резюме.\n", STORAGE_LIMIT);
+            throw new StorageException("Storage overflow", resume.getUuid());
         } else {
             storeResume(resume, index);
             size++;
@@ -41,7 +44,7 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index >= 0) {
             storage[index] = resume;
         } else {
-            System.out.printf("ОШИБКА: Резюме с uuid = '%s' нет в storage!\n", resume.getUuid());
+            throw new NotExistStorageException(resume.getUuid());
         }
     }
 
@@ -52,9 +55,9 @@ public abstract class AbstractArrayStorage implements Storage {
         int index = findIndex(uuid);
         if (index >= 0) {
             return storage[index];
+        } else {
+            throw new NotExistStorageException(uuid);
         }
-        System.out.printf("ОШИБКА: Резюме с uuid = '%s' нет в storage!\n", uuid);
-        return null;
     }
 
     /**
@@ -67,7 +70,7 @@ public abstract class AbstractArrayStorage implements Storage {
             storage[size - 1] = null; // clear the last stored resume
             size--;
         } else {
-            System.out.printf("ОШИБКА: Резюме с uuid = '%s' нет в storage!\n", uuid);
+            throw new NotExistStorageException(uuid);
         }
     }
 

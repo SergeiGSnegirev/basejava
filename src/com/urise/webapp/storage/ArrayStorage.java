@@ -24,7 +24,7 @@ public class ArrayStorage extends AbstractArrayStorage {
      * Appends resume to the end of Resumes storage
      */
     @Override
-    protected void storeResume(Resume resume, int index) {
+    protected void storeByIndex(Resume resume, int index) {
         storage[size] = resume;
     }
 

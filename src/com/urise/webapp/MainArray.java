@@ -2,6 +2,7 @@ package com.urise.webapp;
 
 import com.urise.webapp.model.Resume;
 import com.urise.webapp.storage.ArrayStorage;
+import com.urise.webapp.storage.ListStorage;
 import com.urise.webapp.storage.SortedArrayStorage;
 import com.urise.webapp.storage.Storage;
 
@@ -10,27 +11,30 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * Interactive test for com.urise.webapp.storage.ArrayStorage/SortedArrayStorage implementation
+ * Interactive test for com.urise.webapp.storage.ArrayStorage/SortedArrayStorage/ListStorage implementation
  * (just run, no need to understand)
  */
 public class MainArray {
-    private static Storage ARRAY_STORAGE;
+    private static Storage STORAGE;
 
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        System.out.print("Введите номер хранилища резюме: '1' - неотсортированное, '2' - отсортированное: ");
+        System.out.print("Введите тип хранилища резюме: '1' - массив, '2' - отсортированный массив, '3' - список: ");
         String storageType = reader.readLine().trim();
         switch (storageType) {
             case "1":
-                ARRAY_STORAGE = new ArrayStorage();
+                STORAGE = new ArrayStorage();
                 break;
             case "2":
-                ARRAY_STORAGE = new SortedArrayStorage();
+                STORAGE = new SortedArrayStorage();
+                break;
+            case "3":
+                STORAGE = new ListStorage();
                 break;
             default:
-                ARRAY_STORAGE = new ArrayStorage();
-                System.out.println("Неверный номер хранилища. По умолчанию выбрано неотсортированное.");
+                STORAGE = new ArrayStorage();
+                System.out.println("Неверный тип хранилища. По умолчанию выбран массив.");
                 break;
         }
 
@@ -51,27 +55,27 @@ public class MainArray {
                     printAll();
                     break;
                 case "size":
-                    System.out.println(ARRAY_STORAGE.size());
+                    System.out.println(STORAGE.size());
                     break;
                 case "save":
                     r = new Resume(uuid);
-                    ARRAY_STORAGE.save(r);
+                    STORAGE.save(r);
                     printAll();
                     break;
                 case "update":
                     r = new Resume(uuid);
-                    ARRAY_STORAGE.update(r);
+                    STORAGE.update(r);
                     printAll();
                     break;
                 case "delete":
-                    ARRAY_STORAGE.delete(uuid);
+                    STORAGE.delete(uuid);
                     printAll();
                     break;
                 case "get":
-                    System.out.println(ARRAY_STORAGE.get(uuid));
+                    System.out.println(STORAGE.get(uuid));
                     break;
                 case "clear":
-                    ARRAY_STORAGE.clear();
+                    STORAGE.clear();
                     printAll();
                     break;
                 case "exit":
@@ -84,7 +88,7 @@ public class MainArray {
     }
 
     static void printAll() {
-        Resume[] all = ARRAY_STORAGE.getAll();
+        Resume[] all = STORAGE.getAll();
         System.out.println("----------------------------");
         if (all.length == 0) {
             System.out.println("Empty");

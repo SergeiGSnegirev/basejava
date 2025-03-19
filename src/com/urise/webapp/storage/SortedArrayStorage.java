@@ -19,7 +19,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
      * Store resume keeping storage sorted - shifting the rest to the right on one position
      */
     @Override
-    protected void storeResume(Resume resume, int index) {
+    protected void storeByIndex(Resume resume, int index) {
         int insertPosition = Math.abs(index) - 1;
         System.arraycopy(storage, insertPosition, storage, insertPosition + 1, size - insertPosition);
         storage[insertPosition] = resume;

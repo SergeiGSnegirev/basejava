@@ -8,12 +8,12 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void save(Resume resume) {
-        saveBySearchKey(resume, getNotExistingSearchKey(resume.getUuid()));
+        saveBySearchKey(getNotExistingSearchKey(resume.getUuid()), resume);
     }
 
     @Override
     public void update(Resume resume) {
-        updateBySearchKey(resume, getExistingSearchKey(resume.getUuid()));
+        updateBySearchKey(getExistingSearchKey(resume.getUuid()), resume);
     }
 
     @Override
@@ -46,9 +46,9 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract boolean isExist(Object searchKey);
 
-    protected abstract void saveBySearchKey(Resume resume, Object searchKey);
+    protected abstract void saveBySearchKey(Object searchKey, Resume resume);
 
-    protected abstract void updateBySearchKey(Resume resume, Object searchKey);
+    protected abstract void updateBySearchKey(Object searchKey, Resume resume);
 
     protected abstract Resume getBySearchKey(Object searchKey);
 

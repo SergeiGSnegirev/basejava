@@ -1,10 +1,7 @@
 package com.urise.webapp;
 
 import com.urise.webapp.model.Resume;
-import com.urise.webapp.storage.ArrayStorage;
-import com.urise.webapp.storage.ListStorage;
-import com.urise.webapp.storage.SortedArrayStorage;
-import com.urise.webapp.storage.Storage;
+import com.urise.webapp.storage.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,22 +17,17 @@ public class MainArray {
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        System.out.print("Введите тип хранилища резюме: '1' - массив, '2' - отсортированный массив, '3' - список: ");
+        System.out.print("Введите тип хранилища резюме: 1 - массив, 2 - отсортированный массив, 3 - список, 4 - хэш карта: ");
         String storageType = reader.readLine().trim();
         switch (storageType) {
-            case "1":
-                STORAGE = new ArrayStorage();
-                break;
-            case "2":
-                STORAGE = new SortedArrayStorage();
-                break;
-            case "3":
-                STORAGE = new ListStorage();
-                break;
-            default:
+            case "1" -> STORAGE = new ArrayStorage();
+            case "2" -> STORAGE = new SortedArrayStorage();
+            case "3" -> STORAGE = new ListStorage();
+            case "4" -> STORAGE = new MapStorage();
+            default -> {
                 STORAGE = new ArrayStorage();
                 System.out.println("Неверный тип хранилища. По умолчанию выбран массив.");
-                break;
+            }
         }
 
         Resume r;

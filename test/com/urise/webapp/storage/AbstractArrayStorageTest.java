@@ -7,6 +7,8 @@ import com.urise.webapp.model.Resume;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static com.urise.webapp.storage.AbstractArrayStorage.STORAGE_LIMIT;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -117,7 +119,9 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void getAll() {
-        assertArrayEquals(new Resume[]{RESUME_1, RESUME_2, RESUME_3}, storage.getAll());
+        Resume[] storageArray = storage.getAll();
+        Arrays.sort(storageArray);
+        assertArrayEquals(new Resume[]{RESUME_1, RESUME_2, RESUME_3}, storageArray);
     }
 
     private void assertSize(int size) {

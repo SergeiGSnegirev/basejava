@@ -33,7 +33,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {//implements
     }
 
     @Override
-    protected void saveBySearchKey(Resume resume, Object searchKey) {
+    protected void saveBySearchKey(Object searchKey, Resume resume) {
         if (size == STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", resume.getUuid());
         } else {
@@ -43,7 +43,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {//implements
     }
 
     @Override
-    protected void updateBySearchKey(Resume resume, Object searchKey) {
+    protected void updateBySearchKey(Object searchKey, Resume resume) {
         storage[(Integer) searchKey] = resume;
     }
 

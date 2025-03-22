@@ -11,60 +11,53 @@ public abstract class AbstractArrayStorage extends AbstractStorage {//implements
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
-    /**
-     * Deletes all resumes in storage
-     */
-    @Override
-    public void clear() {
-        Arrays.fill(storage, 0, size, null);
-        size = 0;
-    }
-
-    /**
-     * @return array, contains only Resumes in storage (without null)
-     */
-    @Override
-    public Resume[] getAll() {
-        return Arrays.copyOf(storage, size);
-    }
-
-    /**
-     * @return Resumes' count in storage (without null)
-     */
     @Override
     public int size() {
         return size;
     }
 
     @Override
-    protected void updateByIndex(int index, Resume resume) {
-        storage[index] = resume;
+    public void clear() {
+        Arrays.fill(storage, 0, size, null);
+        size = 0;
     }
 
     @Override
-    protected void store(Resume resume, int index) {
+    public Resume[] getAll() {
+        return Arrays.copyOf(storage, size);
+    }
+
+    @Override
+    protected boolean isExist(Object searchKey) {
+        return (Integer) searchKey >= 0;
+    }
+
+    @Override
+    protected void saveBySearchKey(Resume resume, Object searchKey) {
         if (size == STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", resume.getUuid());
         } else {
-            storeByIndex(resume, index);
+            storeByIndex(resume, (Integer) searchKey);
             size++;
         }
     }
 
     @Override
-    protected Resume getByIndex(int index) {
-        return storage[index];
+    protected void updateBySearchKey(Resume resume, Object searchKey) {
+        storage[(Integer) searchKey] = resume;
     }
 
     @Override
-    protected void removeByIndex(int index) {
-        relocateResume(index);
+    protected Resume getBySearchKey(Object searchKey) {
+        return storage[(Integer) searchKey];
+    }
+
+    @Override
+    protected void deleteBySearchKey(Object searchKey) {
+        relocateResume((Integer) searchKey);
         storage[size - 1] = null; // clear the last stored resume
         size--;
     }
-
-    @Override
-    protected abstract int findIndex(String uuid);
 
     protected abstract void storeByIndex(Resume resume, int index);
 

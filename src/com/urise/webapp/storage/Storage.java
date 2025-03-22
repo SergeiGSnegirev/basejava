@@ -4,17 +4,38 @@ import com.urise.webapp.model.Resume;
 
 public interface Storage {
 
-    void clear();
+    /**
+     * @return Resumes' count in storage (without null)
+     */
+    int size();
 
-    void update(Resume r);
+    /**
+     * Save resume to storage
+     */
+    void save(Resume resume);
 
-    void save(Resume r);
+    /**
+     * Updates resume in storage
+     */
+    void update(Resume resume);
 
+    /**
+     * @return resume by uuid
+     */
     Resume get(String uuid);
 
+    /**
+     * Deletes resume from storage
+     */
     void delete(String uuid);
 
-    Resume[] getAll();
+    /**
+     * Deletes all resumes in storage
+     */
+    void clear();
 
-    int size();
+    /**
+     * @return array, contains only Resumes in storage
+     */
+    Resume[] getAll();
 }

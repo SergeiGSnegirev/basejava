@@ -10,7 +10,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
      * @return resume's position in storage by its uuid or (-(insertion point) - 1) if it is not found
      */
     @Override
-    protected int findIndex(String uuid) {
+    protected Integer findSearchKey(String uuid) {
         Resume searchKey = new Resume(uuid);
         return Arrays.binarySearch(storage, 0, size, searchKey);
     }

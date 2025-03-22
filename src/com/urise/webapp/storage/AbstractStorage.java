@@ -6,83 +6,51 @@ import com.urise.webapp.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
-    /**
-     * Deletes all resumes in storage
-     */
-    @Override
-    public abstract void clear();
-
-    /**
-     * Updates resume in storage
-     */
-    @Override
-    public void update(Resume resume) {
-        int index = findIndex(resume.getUuid());
-        if (index >= 0) {
-            updateByIndex(index, resume);
-        } else {
-            throw new NotExistStorageException(resume.getUuid());
-        }
-    }
-
-    /**
-     * Save resume to storage
-     */
     @Override
     public void save(Resume resume) {
-        int index = findIndex(resume.getUuid());
-        if (index >= 0) {
-            throw new ExistStorageException(resume.getUuid());
-        } else {
-            store(resume, index);
-        }
+        saveBySearchKey(resume, getNotExistingSearchKey(resume.getUuid()));
     }
 
-    /**
-     * @return resume by uuid
-     */
+    @Override
+    public void update(Resume resume) {
+        updateBySearchKey(resume, getExistingSearchKey(resume.getUuid()));
+    }
+
     @Override
     public Resume get(String uuid) {
-        int index = findIndex(uuid);
-        if (index >= 0) {
-            return getByIndex(index);
-        } else {
-            throw new NotExistStorageException(uuid);
-        }
+        return getBySearchKey(getExistingSearchKey(uuid));
     }
 
-    /**
-     * Deletes resume from storage
-     */
     @Override
     public void delete(String uuid) {
-        int index = findIndex(uuid);
-        if (index >= 0) {
-            removeByIndex(index);
-        } else {
-            throw new NotExistStorageException(uuid);
-        }
+        deleteBySearchKey(getExistingSearchKey(uuid));
     }
 
-    /**
-     * @return array, contains only Resumes in storage
-     */
-    @Override
-    public abstract Resume[] getAll();
+    private Object getExistingSearchKey(String uuid) {
+        Object searchKey = findSearchKey(uuid);
+        if (!isExist(searchKey)) {
+            throw new NotExistStorageException(uuid);
+        }
+        return searchKey;
+    }
 
-    /**
-     * @return Resumes' count in storage (without null)
-     */
-    @Override
-    public abstract int size();
+    private Object getNotExistingSearchKey(String uuid) {
+        Object searchKey = findSearchKey(uuid);
+        if (isExist(searchKey)) {
+            throw new ExistStorageException(uuid);
+        }
+        return searchKey;
+    }
 
-    protected abstract int findIndex(String uuid);
+    protected abstract Object findSearchKey(String uuid);
 
-    protected abstract void updateByIndex(int index, Resume resume);
+    protected abstract boolean isExist(Object searchKey);
 
-    protected abstract void store(Resume resume, int index);
+    protected abstract void saveBySearchKey(Resume resume, Object searchKey);
 
-    protected abstract Resume getByIndex(int index);
+    protected abstract void updateBySearchKey(Resume resume, Object searchKey);
 
-    protected abstract void removeByIndex(int index);
+    protected abstract Resume getBySearchKey(Object searchKey);
+
+    protected abstract void deleteBySearchKey(Object searchKey);
 }

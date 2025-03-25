@@ -6,6 +6,7 @@ import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIf;
 
 import java.util.Arrays;
 
@@ -82,6 +83,7 @@ public abstract class AbstractArrayStorageTest {
     }
 
     @Test
+    @EnabledIf("overflowTestCondition")
     public void saveOverflow() {
         try {
             for (int i = 3; i < STORAGE_LIMIT; i++) {
@@ -90,7 +92,11 @@ public abstract class AbstractArrayStorageTest {
         } catch (StorageException e) {
             fail("Premature storage overflow");
         }
-        assertThrows(StorageException.class, () -> storage.save(RESUME_1));
+        assertThrows(StorageException.class, () -> storage.save(RESUME_4));
+    }
+
+    private boolean overflowTestCondition() {
+        return storage.getClass().getName().contains("ArrayStorage");
     }
 
     @Test

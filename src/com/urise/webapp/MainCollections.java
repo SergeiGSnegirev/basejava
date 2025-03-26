@@ -15,7 +15,7 @@ public class MainCollections {
     private static final Resume RESUME_4 = new Resume(UUID_4);
 
     public static void main(String[] args) {
-        Collection<Resume> collection = new ArrayList<>();
+        Collection<Resume>  collection = new ArrayList<>();
         collection.add(RESUME_1);
         collection.add(RESUME_2);
         collection.add(RESUME_3);
@@ -51,5 +51,8 @@ public class MainCollections {
         for (Map.Entry<String, Resume> entry : map.entrySet()) {
             System.out.println(entry.getValue());
         }
+        List<Resume> resumes = Arrays.asList(RESUME_1, RESUME_2, RESUME_3);
+        System.out.println(resumes);
+        resumes.remove(1);
     }
 }

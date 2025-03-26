@@ -3,11 +3,13 @@ package com.urise.webapp.storage;
 import com.urise.webapp.model.Resume;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class ListStorage extends AbstractStorage {
+public class MapUuidStorage extends AbstractStorage {
 
-    protected final List<Resume> storage = new ArrayList<>();
+    protected final Map<String, Resume> storage = new HashMap<>();
 
     @Override
     public int size() {
@@ -21,46 +23,41 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        return storage.toArray(new Resume[0]);
+        return storage.values().toArray(new Resume[0]);
     }
 
     @Override
     protected List<Resume> getAsList() {
-        return new ArrayList<>(storage);
+        return new ArrayList<>(storage.values());
     }
 
     @Override
-    protected Integer findSearchKey(String uuid) {
-        for (int i = 0; i < storage.size(); i++) {
-            if (storage.get(i).getUuid().equals(uuid)) {
-                return i;
-            }
-        }
-        return -1;
+    protected Object findSearchKey(String uuid) {
+        return uuid;
     }
 
     @Override
     protected boolean isExist(Object searchKey) {
-        return (Integer) searchKey >= 0;
+        return storage.containsKey((String) searchKey);
     }
 
     @Override
     protected void doSave(Object searchKey, Resume resume) {
-        storage.add(resume);
+        storage.put(resume.getUuid(), resume);
     }
 
     @Override
     protected void doUpdate(Object searchKey, Resume resume) {
-        storage.set((Integer) searchKey, resume);
+        storage.put((String) searchKey, resume);
     }
 
     @Override
     protected Resume doGet(Object searchKey) {
-        return storage.get((Integer) searchKey);
+        return storage.get((String) searchKey);
     }
 
     @Override
     protected void doDelete(Object searchKey) {
-        storage.remove(((Integer) searchKey).intValue());
+        storage.remove((String) searchKey);
     }
 }

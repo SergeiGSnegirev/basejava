@@ -58,7 +58,7 @@ public abstract class AbstractStorageTest {
     public void clear() {
         storage.clear();
         assertSize(0);
-        assertArrayEquals(new Resume[]{}, storage.getAll());
+        assertArrayEquals(new Resume[]{}, storage.getAllSorted().toArray(new Resume[0]));
     }
 
     @Test
@@ -100,7 +100,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume newResume1 = new Resume(UUID_1);
+        Resume newResume1 = new Resume(UUID_1, "Marvin Gaye");
         storage.update(newResume1);
         assertSame(newResume1, storage.get(newResume1.getUuid()));
     }
@@ -121,13 +121,6 @@ public abstract class AbstractStorageTest {
     public void deleteNotExist() {
         assertThrows(NotExistStorageException.class, () -> storage.delete(DUMMY));
     }
-
-//    @Test
-//    public void getAll() {
-//        Resume[] storageArray = storage.getAll();
-//        Arrays.sort(storageArray);
-//        assertArrayEquals(new Resume[]{RESUME_1, RESUME_2, RESUME_3}, storageArray);
-//    }
 
     @Test
     public void getAllSorted() {

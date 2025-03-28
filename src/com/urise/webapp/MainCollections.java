@@ -9,13 +9,13 @@ public class MainCollections {
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
     private static final String UUID_4 = "uuid4";
-    private static final Resume RESUME_1 = new Resume(UUID_1);
-    private static final Resume RESUME_2 = new Resume(UUID_2);
-    private static final Resume RESUME_3 = new Resume(UUID_3);
-    private static final Resume RESUME_4 = new Resume(UUID_4);
+    private static final Resume RESUME_1 = new Resume(UUID_1, "Sam Cooke");
+    private static final Resume RESUME_2 = new Resume(UUID_2, "Ray Charles");
+    private static final Resume RESUME_3 = new Resume(UUID_3, "James Brown");
+    private static final Resume RESUME_4 = new Resume(UUID_4, "Otis Redding");
 
     public static void main(String[] args) {
-        Collection<Resume>  collection = new ArrayList<>();
+        Collection<Resume> collection = new ArrayList<>();
         collection.add(RESUME_1);
         collection.add(RESUME_2);
         collection.add(RESUME_3);
@@ -53,6 +53,6 @@ public class MainCollections {
         }
         List<Resume> resumes = Arrays.asList(RESUME_1, RESUME_2, RESUME_3);
         System.out.println(resumes);
-        resumes.remove(1);
+//        resumes.remove(1); // UnsupportedOperationException
     }
 }

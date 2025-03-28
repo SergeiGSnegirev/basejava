@@ -26,7 +26,7 @@ public class MainArray {
             case "2" -> STORAGE = new SortedArrayStorage();
             case "3" -> STORAGE = new ListStorage();
             case "4" -> STORAGE = new MapUuidStorage();
-            case "5" -> STORAGE = new MapStorage();
+            case "5" -> STORAGE = new MapResumeStorage();
             default -> {
                 STORAGE = new ArrayStorage();
                 System.out.println("Неверный тип хранилища. По умолчанию выбран массив.");
@@ -44,15 +44,15 @@ public class MainArray {
             }
             params[0] = params[0].toLowerCase();
             String uuid = null;
-            String fullUuid = null;
+            String fullName = null;
             if (params.length >= 2) {
                 uuid = params[1].intern().toLowerCase();
             }
             if (params.length >= 3) {
-                fullUuid = params[2].intern();
+                fullName = params[2].intern();
             }
             if (params.length == 4) {
-                fullUuid += " " + params[3].intern();
+                fullName += " " + params[3].intern();
             }
             switch (params[0]) {
                 case "list":
@@ -62,22 +62,20 @@ public class MainArray {
                     System.out.println(STORAGE.size());
                     break;
                 case "save":
-                    if (fullUuid == null) {
+                    if (fullName == null) {
                         System.out.println("Неверная команда.");
                         continue;
                     }
-                    r = new Resume(uuid);
-                    r.setFullName(fullUuid);
+                    r = new Resume(uuid, fullName);
                     STORAGE.save(r);
                     printAllSortedList();
                     break;
                 case "update":
-                    if (fullUuid == null) {
+                    if (fullName == null) {
                         System.out.println("Неверная команда.");
                         continue;
                     }
-                    r = new Resume(uuid);
-                    r.setFullName(fullUuid);
+                    r = new Resume(uuid, fullName);
                     STORAGE.update(r);
                     printAllSortedList();
                     break;
@@ -108,19 +106,6 @@ public class MainArray {
             System.out.println("Empty");
         } else {
             for (Resume r : allSorted) {
-                System.out.println(r);
-            }
-        }
-        System.out.println("----------------------------");
-    }
-
-    static void printAll() {
-        Resume[] all = STORAGE.getAll();
-        System.out.println("----------------------------");
-        if (all.length == 0) {
-            System.out.println("Empty");
-        } else {
-            for (Resume r : all) {
                 System.out.println(r);
             }
         }

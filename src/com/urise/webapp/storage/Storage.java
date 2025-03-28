@@ -37,11 +37,6 @@ public interface Storage {
     void clear();
 
     /**
-     * @return array, contains only Resumes in storage
-     */
-    Resume[] getAll();
-
-    /**
      * @return sorted List, contains only Resumes in storage
      */
     List<Resume> getAllSorted();

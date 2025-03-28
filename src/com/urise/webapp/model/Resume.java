@@ -14,11 +14,15 @@ public class Resume {
     private String fullName;
 
     public Resume() {
-        this(UUID.randomUUID().toString(), "Anonymous");
+        this(UUID.randomUUID().toString(), "");
     }
 
-    public Resume(String uuid) {
-        this(uuid, "Anonymous");
+//    public Resume(String uuid) {
+//        this(uuid, "");
+//    }
+
+    public Resume(String fullName) {
+        this(UUID.randomUUID().toString(), fullName);
     }
 
     public Resume(String uuid, String fullName) {

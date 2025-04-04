@@ -8,6 +8,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIf;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static com.urise.webapp.storage.AbstractArrayStorage.STORAGE_LIMIT;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,9 +20,9 @@ public abstract class AbstractStorageTest {
     private static final String UUID_3 = "uuid3";
     private static final String UUID_4 = "uuid4";
     private static final String DUMMY = "dummy";
-    private static final String FULL_NAME_1 = "Sam Cooke";
+    private static final String FULL_NAME_1 = "James Brown";
     private static final String FULL_NAME_2 = "Ray Charles";
-    private static final String FULL_NAME_3 = "James Brown";
+    private static final String FULL_NAME_3 = "Sam Cooke";
     private static final String FULL_NAME_4 = "Otis Redding";
     private static final String FULL_NAME_DUMMY = "John Doe";
 
@@ -90,7 +93,7 @@ public abstract class AbstractStorageTest {
     public void saveOverflow() {
         try {
             for (int i = 3; i < STORAGE_LIMIT; i++) {
-                storage.save(new Resume());
+                storage.save(new Resume("Dummy"));
             }
         } catch (StorageException e) {
             fail("Premature storage overflow");
@@ -124,8 +127,8 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAllSorted() {
-        Resume[] storageArray = storage.getAllSorted().toArray(new Resume[0]);
-        assertArrayEquals(new Resume[]{RESUME_3, RESUME_2, RESUME_1}, storageArray);
+        List<Resume> listSorted = storage.getAllSorted();
+        assertEquals(listSorted, Arrays.asList(RESUME_1, RESUME_2, RESUME_3));
     }
 
     private void assertSize(int size) {

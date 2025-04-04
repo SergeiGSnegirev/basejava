@@ -18,7 +18,7 @@ public class MainArray {
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        System.out.print("Введите тип хранилища резюме: 1 - массив, 2 - отсортированный массив," +
+        System.out.print("Введите тип хранилища: 1 - массив, 2 - отсортированный (по uuid) массив," +
                 " 3 - список, 4 - хэш карта, 5 - хэш карта с поиском целиком резюме: ");
         String storageType = reader.readLine().trim();
         switch (storageType) {

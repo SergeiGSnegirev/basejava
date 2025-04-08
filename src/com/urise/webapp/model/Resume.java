@@ -33,6 +33,14 @@ public class Resume implements Comparable<Resume> {
         return uuid;
     }
 
+    public Map<ContactType, String> getContacts() {
+        return contacts;
+    }
+
+    public Map<SectionType, Section> getSections() {
+        return sections;
+    }
+
     public void setContacts(Map<ContactType, String> contacts) {
         this.contacts = contacts;
     }
@@ -64,8 +72,6 @@ public class Resume implements Comparable<Resume> {
         resumeString += contactsToString().isEmpty() ? "" : "%n%s".formatted(contactsToString());
         resumeString += sectionsToString().isEmpty() ? "" : "%n%s".formatted(sectionsToString());
         return resumeString;
-//        return ("%n              uuid: %s%n          fullName: %s%n%n%s%n%s").formatted(
-//                uuid, fullName, contactsToString(), sectionsToString());
     }
 
     private String contactsToString() {

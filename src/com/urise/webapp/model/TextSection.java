@@ -10,6 +10,10 @@ public class TextSection extends Section {
         this.body = body;
     }
 
+    public String getBody() {
+        return body;
+    }
+
     @Override
     public final boolean equals(Object object) {
         if (!(object instanceof TextSection that)) return false;

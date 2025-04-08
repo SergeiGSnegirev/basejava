@@ -1,5 +1,7 @@
 package com.urise.webapp.model;
 
+import com.urise.webapp.util.DateUtil;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -11,7 +13,13 @@ import static com.urise.webapp.model.SectionType.*;
 
 public class ResumeTestData {
     public static void main(String[] args) {
-        Resume resume = new Resume("Александр Иванов");
+
+        System.out.println(fillTestResume("uuid1", "Александр Иванов"));
+    }
+
+    public static Resume fillTestResume(String uuid, String fullName) {
+
+        Resume resume = new Resume(uuid, fullName);
 
         // fill CONTACTS
         Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
@@ -78,13 +86,13 @@ public class ResumeTestData {
         OrganizationSection experience = new OrganizationSection(
                 new ArrayList<>(List.of(new Organization("Java Online Projects", "http://javaops.ru/",
                                 new ArrayList<>(List.of(
-                                        new Period(LocalDate.of(2013, 10, 1), LocalDate.now(),
+                                        new Period(DateUtil.of(2013, 10), LocalDate.now(),
                                                 "Автор проекта.",
                                                 "Создание, организация и проведение Java онлайн проектов и стажировок.")))),
                         new Organization("Wrike", "https://www.wrike.com/",
                                 new ArrayList<>(List.of(
-                                        new Period(LocalDate.of(2014, 10, 1),
-                                                LocalDate.of(2016, 1, 1),
+                                        new Period(DateUtil.of(2014, 10),
+                                                DateUtil.of(2016, 1),
                                                 "Старший разработчик (backend)",
                                                 "Проектирование и разработка онлайн платформы управления" +
                                                         " проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava," +
@@ -92,8 +100,8 @@ public class ResumeTestData {
                                                         " авторизация по OAuth1, OAuth2, JWT SSO.")))),
                         new Organization("RIT Center", "",
                                 new ArrayList<>(List.of(
-                                        new Period(LocalDate.of(2012, 4, 1),
-                                                LocalDate.of(2014, 10, 1),
+                                        new Period(DateUtil.of(2012, 4),
+                                                DateUtil.of(2014, 10),
                                                 "Java архитектор",
                                                 "Организация процесса разработки системы ERP для разных окружений:" +
                                                         " релизная политика, версионирование, ведение CI (Jenkins), миграция базы" +
@@ -107,8 +115,8 @@ public class ResumeTestData {
                                                         " Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python")))),
                         new Organization("Luxoft (Deutsche Bank)", "http://www.luxoft.ru/",
                                 new ArrayList<>(List.of(
-                                        new Period(LocalDate.of(2010, 12, 1),
-                                                LocalDate.of(2012, 4, 1),
+                                        new Period(DateUtil.of(2010, 12),
+                                                DateUtil.of(2012, 4),
                                                 "Ведущий программист",
                                                 "Участие в проекте Deutsche Bank CRM (WebLogic, Hibernate, Spring," +
                                                         " Spring MVC, SmartGWT, GWT, Jasper, Oracle). Реализация клиентской и" +
@@ -122,32 +130,31 @@ public class ResumeTestData {
         OrganizationSection education = new OrganizationSection(
                 new ArrayList<>(List.of(new Organization("Coursera", "https://www.coursera.org/course/progfun",
                                 new ArrayList<>(List.of(
-                                        new Period(LocalDate.of(2013, 3, 1),
-                                                LocalDate.of(2013, 5, 1),
+                                        new Period(DateUtil.of(2013, 3),
+                                                DateUtil.of(2013, 5),
                                                 "'Functional Programming Principles in Scala' by Martin Odersky",
                                                 "")))),
                         new Organization("Luxoft", "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366",
                                 new ArrayList<>(List.of(
-                                        new Period(LocalDate.of(2011, 3, 1),
-                                                LocalDate.of(2011, 4, 1),
+                                        new Period(DateUtil.of(2011, 3),
+                                                DateUtil.of(2011, 4),
                                                 "Курс 'Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.'",
                                                 "")))),
                         new Organization("Siemens AG", "http://www.siemens.ru/",
                                 new ArrayList<>(List.of(
-                                        new Period(LocalDate.of(2005, 1, 1),
-                                                LocalDate.of(2005, 4, 1),
+                                        new Period(DateUtil.of(2005, 1),
+                                                DateUtil.of(2005, 4),
                                                 "3 месяца обучения мобильным IN сетям (Берлин)",
                                                 "")))),
                         new Organization("Alcatel", "http://www.alcatel.ru/",
                                 new ArrayList<>(List.of(
-                                        new Period(LocalDate.of(1997, 9, 1),
-                                                LocalDate.of(1998, 3, 1),
+                                        new Period(DateUtil.of(1997, 9),
+                                                DateUtil.of(1998, 3),
                                                 "6 месяцев обучения цифровым телефонным сетям (Москва)",
                                                 ""))))
                 )));
         sections.put(EDUCATION, education);
-
         resume.setSections(sections);
-        System.out.println(resume);
+        return resume;
     }
 }

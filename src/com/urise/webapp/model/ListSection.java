@@ -11,6 +11,10 @@ public class ListSection extends Section {
         this.items = items;
     }
 
+    public List<String> getItems() {
+        return items;
+    }
+
     @Override
     public final boolean equals(Object object) {
         if (!(object instanceof ListSection that)) return false;

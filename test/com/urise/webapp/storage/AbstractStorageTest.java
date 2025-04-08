@@ -3,14 +3,21 @@ package com.urise.webapp.storage;
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.exception.StorageException;
+import com.urise.webapp.model.ListSection;
+import com.urise.webapp.model.OrganizationSection;
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.model.TextSection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIf;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.urise.webapp.model.ContactType.SKYPE;
+import static com.urise.webapp.model.ResumeTestData.fillTestResume;
+import static com.urise.webapp.model.SectionType.*;
 import static com.urise.webapp.storage.AbstractArrayStorage.STORAGE_LIMIT;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -129,6 +136,36 @@ public abstract class AbstractStorageTest {
     public void getAllSorted() {
         List<Resume> listSorted = storage.getAllSorted();
         assertEquals(listSorted, Arrays.asList(RESUME_1, RESUME_2, RESUME_3));
+    }
+
+    @Test
+    public void fillResume() {
+        Resume filledResume = fillTestResume("fully-filled", "David Bowie");
+        storage.save(filledResume);
+        Resume checkResume = storage.get("fully-filled");
+        assertEquals(7, checkResume.getContacts().size());
+        assertEquals("skype:alex.ivanov", checkResume.getContacts().get(SKYPE));
+        assertEquals(6, checkResume.getSections().size());
+        TextSection personal = (TextSection) checkResume.getSections().get(PERSONAL);
+        assertTrue(personal.getBody().startsWith("Аналитический"));
+        TextSection objective = (TextSection) checkResume.getSections().get(OBJECTIVE);
+        assertTrue(objective.getBody().endsWith("технологиям"));
+        ListSection achievement = (ListSection) checkResume.getSections().get(ACHIEVEMENT);
+        assertEquals(4, achievement.getItems().size());
+        ListSection qualifications = (ListSection) checkResume.getSections().get(QUALIFICATIONS);
+        assertEquals(11, qualifications.getItems().size());
+        assertTrue(qualifications.getItems().get(5).startsWith("Java"));
+        OrganizationSection experience = (OrganizationSection) checkResume.getSections().get(EXPERIENCE);
+        assertEquals(4, experience.getOrganizations().size());
+        assertEquals("Wrike", experience.getOrganizations().get(1).getName());
+        assertEquals("Java архитектор", experience.getOrganizations().get(2).getPeriods().get(0).getTitle());
+        assertEquals("01/2016", experience.getOrganizations().get(1).getPeriods().get(0).
+                getEndDate().format(DateTimeFormatter.ofPattern("MM/yyyy")));
+        OrganizationSection education = (OrganizationSection) checkResume.getSections().get(EDUCATION);
+        assertEquals(4, education.getOrganizations().size());
+        assertEquals("http://www.siemens.ru/", education.getOrganizations().get(2).getWebsite());
+        assertEquals("09/1997", education.getOrganizations().get(3).getPeriods().get(0).
+                getStartDate().format(DateTimeFormatter.ofPattern("MM/yyyy")));
     }
 
     private void assertSize(int size) {

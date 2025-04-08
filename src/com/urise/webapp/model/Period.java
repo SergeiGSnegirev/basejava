@@ -21,12 +21,28 @@ public class Period {
         this.description = description;
     }
 
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     @Override
     public final boolean equals(Object object) {
         if (!(object instanceof Period period)) return false;
 
         return startDate.equals(period.startDate) && endDate.equals(period.endDate) &&
-                title.equals(period.title) && description.equals(period.description);
+                title.equals(period.title) && Objects.equals(description, period.description);
     }
 
     @Override
@@ -34,7 +50,7 @@ public class Period {
         int result = startDate.hashCode();
         result = 31 * result + endDate.hashCode();
         result = 31 * result + title.hashCode();
-        result = 31 * result + description.hashCode();
+        result = 31 * result + Objects.hashCode(description);
         return result;
     }
 

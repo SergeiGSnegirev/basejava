@@ -21,17 +21,27 @@ public class Organization {
         return name;
     }
 
+    public String getWebsite() {
+        return website;
+    }
+
+    public List<Period> getPeriods() {
+        return periods;
+    }
+
     @Override
     public final boolean equals(Object object) {
         if (!(object instanceof Organization that)) return false;
 
-        return name.equals(that.name) && website.equals(that.website) && periods.equals(that.periods);
+        return getName().equals(that.getName()) &&
+                Objects.equals(website, that.website) &&
+                periods.equals(that.periods);
     }
 
     @Override
     public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + website.hashCode();
+        int result = getName().hashCode();
+        result = 31 * result + Objects.hashCode(website);
         result = 31 * result + periods.hashCode();
         return result;
     }

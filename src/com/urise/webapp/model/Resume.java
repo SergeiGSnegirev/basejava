@@ -49,6 +49,14 @@ public class Resume implements Comparable<Resume> {
         this.sections = sections;
     }
 
+    public void addContact(ContactType type, String value) {
+        contacts.put(type, value);
+    }
+
+    public void addSection(SectionType type, Section section) {
+        sections.put(type, section);
+    }
+
     @Override
     public final boolean equals(Object object) {
         if (!(object instanceof Resume resume)) return false;

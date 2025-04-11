@@ -1,17 +1,17 @@
 package com.urise.webapp.model;
 
-import com.urise.webapp.util.DateUtil;
-
-import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.urise.webapp.model.ContactType.*;
+import static com.urise.webapp.model.Organization.Period;
 import static com.urise.webapp.model.SectionType.*;
 
 public class ResumeTestData {
+
     public static void main(String[] args) {
 
         System.out.println(fillTestResume("uuid1", "Александр Иванов"));
@@ -23,7 +23,7 @@ public class ResumeTestData {
 
         // fill CONTACTS
         Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
-        contacts.put(MOBILE_PHONE, "+7 (916) 987-65-43");
+        contacts.put(MOBILE_PHONE, "+7 (911) 123-45-67");
         contacts.put(EMAIL, "alex.ivanov@gmail.com");
         contacts.put(SKYPE, "skype:alex.ivanov");
         contacts.put(TELEGRAM, "https://t.me/AlexIvanov");
@@ -86,13 +86,13 @@ public class ResumeTestData {
         OrganizationSection experience = new OrganizationSection(
                 new ArrayList<>(List.of(new Organization("Java Online Projects", "http://javaops.ru/",
                                 new ArrayList<>(List.of(
-                                        new Period(DateUtil.of(2013, 10), LocalDate.now(),
+                                        new Organization.Period(2013, Month.OCTOBER,
                                                 "Автор проекта.",
                                                 "Создание, организация и проведение Java онлайн проектов и стажировок.")))),
                         new Organization("Wrike", "https://www.wrike.com/",
                                 new ArrayList<>(List.of(
-                                        new Period(DateUtil.of(2014, 10),
-                                                DateUtil.of(2016, 1),
+                                        new Period(2014, Month.OCTOBER,
+                                                2016, Month.JANUARY,
                                                 "Старший разработчик (backend)",
                                                 "Проектирование и разработка онлайн платформы управления" +
                                                         " проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava," +
@@ -100,8 +100,8 @@ public class ResumeTestData {
                                                         " авторизация по OAuth1, OAuth2, JWT SSO.")))),
                         new Organization("RIT Center", "",
                                 new ArrayList<>(List.of(
-                                        new Period(DateUtil.of(2012, 4),
-                                                DateUtil.of(2014, 10),
+                                        new Period(2012, Month.APRIL,
+                                                2014, Month.OCTOBER,
                                                 "Java архитектор",
                                                 "Организация процесса разработки системы ERP для разных окружений:" +
                                                         " релизная политика, версионирование, ведение CI (Jenkins), миграция базы" +
@@ -115,8 +115,8 @@ public class ResumeTestData {
                                                         " Python scripting, Unix shell remote scripting via ssh tunnels, PL/Python")))),
                         new Organization("Luxoft (Deutsche Bank)", "http://www.luxoft.ru/",
                                 new ArrayList<>(List.of(
-                                        new Period(DateUtil.of(2010, 12),
-                                                DateUtil.of(2012, 4),
+                                        new Period(2010, Month.DECEMBER,
+                                                2012, Month.APRIL,
                                                 "Ведущий программист",
                                                 "Участие в проекте Deutsche Bank CRM (WebLogic, Hibernate, Spring," +
                                                         " Spring MVC, SmartGWT, GWT, Jasper, Oracle). Реализация клиентской и" +
@@ -130,26 +130,26 @@ public class ResumeTestData {
         OrganizationSection education = new OrganizationSection(
                 new ArrayList<>(List.of(new Organization("Coursera", "https://www.coursera.org/course/progfun",
                                 new ArrayList<>(List.of(
-                                        new Period(DateUtil.of(2013, 3),
-                                                DateUtil.of(2013, 5),
+                                        new Period(2013, Month.MARCH,
+                                                2013, Month.MAY,
                                                 "'Functional Programming Principles in Scala' by Martin Odersky",
                                                 "")))),
                         new Organization("Luxoft", "http://www.luxoft-training.ru/training/catalog/course.html?ID=22366",
                                 new ArrayList<>(List.of(
-                                        new Period(DateUtil.of(2011, 3),
-                                                DateUtil.of(2011, 4),
+                                        new Period(2011, Month.MARCH,
+                                                2011, Month.APRIL,
                                                 "Курс 'Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.'",
                                                 "")))),
                         new Organization("Siemens AG", "http://www.siemens.ru/",
                                 new ArrayList<>(List.of(
-                                        new Period(DateUtil.of(2005, 1),
-                                                DateUtil.of(2005, 4),
+                                        new Period(2005, Month.JANUARY,
+                                                2005, Month.APRIL,
                                                 "3 месяца обучения мобильным IN сетям (Берлин)",
                                                 "")))),
                         new Organization("Alcatel", "http://www.alcatel.ru/",
                                 new ArrayList<>(List.of(
-                                        new Period(DateUtil.of(1997, 9),
-                                                DateUtil.of(1998, 3),
+                                        new Period(1997, Month.SEPTEMBER,
+                                                1998, Month.MARCH,
                                                 "6 месяцев обучения цифровым телефонным сетям (Москва)",
                                                 ""))))
                 )));

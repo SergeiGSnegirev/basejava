@@ -157,13 +157,13 @@ public abstract class AbstractStorageTest {
         assertTrue(qualifications.getItems().get(5).startsWith("Java"));
         OrganizationSection experience = (OrganizationSection) checkResume.getSections().get(EXPERIENCE);
         assertEquals(4, experience.getOrganizations().size());
-        assertEquals("Wrike", experience.getOrganizations().get(1).getName());
+        assertEquals("Wrike", experience.getOrganizations().get(1).getHomePage().getName());
         assertEquals("Java архитектор", experience.getOrganizations().get(2).getPeriods().get(0).getTitle());
         assertEquals("01/2016", experience.getOrganizations().get(1).getPeriods().get(0).
                 getEndDate().format(DateTimeFormatter.ofPattern("MM/yyyy")));
         OrganizationSection education = (OrganizationSection) checkResume.getSections().get(EDUCATION);
         assertEquals(4, education.getOrganizations().size());
-        assertEquals("http://www.siemens.ru/", education.getOrganizations().get(2).getWebsite());
+        assertEquals("http://www.siemens.ru/", education.getOrganizations().get(2).getHomePage().getUrl());
         assertEquals("09/1997", education.getOrganizations().get(3).getPeriods().get(0).
                 getStartDate().format(DateTimeFormatter.ofPattern("MM/yyyy")));
     }

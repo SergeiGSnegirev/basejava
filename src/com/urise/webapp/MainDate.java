@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,7 +37,7 @@ public class MainDate {
         System.out.println("DateTimeFormatter LocalDate: " + dtf.format(localDate));
         System.out.println("DateTimeFormatter LocalDate: " + localDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
 
-        LocalDate startDate = DateUtil.of(2021, 4);
+        LocalDate startDate = DateUtil.of(2021, Month.APRIL);
         System.out.println("startDate: " + startDate);
     }
 }

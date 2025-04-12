@@ -1,5 +1,7 @@
 package com.urise.webapp.model;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
@@ -10,7 +12,10 @@ import java.util.Objects;
 import static com.urise.webapp.util.DateUtil.NOW;
 import static com.urise.webapp.util.DateUtil.of;
 
-public class Organization {
+public class Organization implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     private final Link homePage;
     private final List<Period> periods;
@@ -54,14 +59,14 @@ public class Organization {
 
     @Override
     public String toString() {
-        StringBuilder orgString = new StringBuilder("%s%s%n".formatted(" ".repeat(20), homePage));
+        StringBuilder orgString = new StringBuilder("%s%s".formatted(" ".repeat(20), homePage));
         for (Period period : periods) {
             orgString.append(period.toString());
         }
         return orgString.toString();
     }
 
-    public static class Period {
+    public static class Period implements Serializable {
 
         private final LocalDate startDate;
         private final LocalDate endDate;
@@ -121,10 +126,11 @@ public class Organization {
 
         @Override
         public String toString() {
-            return " %s - %s: %s%n%s%s%n".formatted(
+            return " %s - %s: %s%n%s".formatted(
                     startDate.format(DateTimeFormatter.ofPattern("MM/yyyy")),
                     endDate.format(DateTimeFormatter.ofPattern("MM/yyyy")),
-                    title, " ".repeat(20), description);
+                    title,
+                    description.isEmpty() ? "" : "%s%s%n".formatted(" ".repeat(20), description));
         }
     }
 }

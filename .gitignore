@@ -3,6 +3,7 @@ lesson
 lib
 log
 out
+storage
 target
 *.iml
 .gitignore

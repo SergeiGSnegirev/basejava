@@ -32,20 +32,19 @@ public class ResumeTestData {
         contacts.put(HOME_PAGE, "http://alexivanov.ru/");
         resume.setContacts(contacts);
 
+        // fill SECTIONS
         Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
 
         // fill PERSONAL
-        TextSection personal = new TextSection("Аналитический склад ума, сильная логика, креативность," +
-                " инициативность. Пурист кода и архитектуры.");
-        sections.put(PERSONAL, personal);
+        sections.put(PERSONAL, new TextSection("Аналитический склад ума, сильная логика, креативность," +
+                " инициативность. Пурист кода и архитектуры."));
 
         // fill OBJECTIVE
-        TextSection objective = new TextSection("Ведущий стажировок и корпоративного обучения по" +
-                " Java Web и Enterprise технологиям");
-        sections.put(OBJECTIVE, objective);
+        sections.put(OBJECTIVE, new TextSection("Ведущий стажировок и корпоративного обучения по" +
+                " Java Web и Enterprise технологиям"));
 
         // fill ACHIEVEMENT
-        ListSection achievement = new ListSection(List.of("Организация команды и успешная реализация Java проектов" +
+        sections.put(ACHIEVEMENT, new ListSection(List.of("Организация команды и успешная реализация Java проектов" +
                         " для сторонних заказчиков: приложения автопарк на стеке Spring Cloud/микросервисы, система" +
                         " мониторинга показателей спортсменов на Spring Boot, участие в проекте МЭШ на Play-2," +
                         " многомодульный Spring Boot + Vaadin проект для комплексных DIY смет",
@@ -58,11 +57,10 @@ public class ResumeTestData {
                         " Bonita BPM, CMIS, LDAP. Разработка приложения управления окружением на стеке:" +
                         " Scala/Play/Anorm/JQuery. Разработка SSO аутентификации и авторизации различных ERP" +
                         " модулей, интеграция CIFS/SMB java сервера."
-        ));
-        sections.put(ACHIEVEMENT, achievement);
+        )));
 
         // fill QUALIFICATIONS
-        ListSection qualifications = new ListSection(List.of("JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat," +
+        sections.put(QUALIFICATIONS, new ListSection(List.of("JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat," +
                         " Jetty, WebLogic, WSO2",
                 "Version control: Subversion, Git, Mercury, ClearCase, Perforce",
                 "DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle, MySQL, SQLite," +
@@ -79,11 +77,10 @@ public class ResumeTestData {
                         " MDB, JMX, JDBC, JPA, JNDI, JAAS, SOAP, AJAX, Commet, HTML5, ESB, CMIS, BPMN2, LDAP," +
                         " OAuth1, OAuth2, JWT.",
                 "Родной русский, английский \"upper intermediate\""
-        ));
-        sections.put(QUALIFICATIONS, qualifications);
+        )));
 
         // fill EXPERIENCE
-        OrganizationSection experience = new OrganizationSection(
+        sections.put(EXPERIENCE, new OrganizationSection(
                 new ArrayList<>(List.of(new Organization("Java Online Projects", "http://javaops.ru/",
                                 new ArrayList<>(List.of(
                                         new Organization.Period(2013, Month.OCTOBER,
@@ -123,11 +120,10 @@ public class ResumeTestData {
                                                         " серверной части CRM. Реализация RIA-приложения для администрирования," +
                                                         " мониторинга и анализа результатов в области алгоритмического трейдинга." +
                                                         " JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Highstock, Commet, HTML5."))))
-                )));
-        sections.put(EXPERIENCE, experience);
+                ))));
 
         // fill EDUCATION
-        OrganizationSection education = new OrganizationSection(
+        sections.put(EDUCATION, new OrganizationSection(
                 new ArrayList<>(List.of(new Organization("Coursera", "https://www.coursera.org/course/progfun",
                                 new ArrayList<>(List.of(
                                         new Period(2013, Month.MARCH,
@@ -152,8 +148,8 @@ public class ResumeTestData {
                                                 1998, Month.MARCH,
                                                 "6 месяцев обучения цифровым телефонным сетям (Москва)",
                                                 ""))))
-                )));
-        sections.put(EDUCATION, education);
+                ))));
+
         resume.setSections(sections);
         return resume;
     }

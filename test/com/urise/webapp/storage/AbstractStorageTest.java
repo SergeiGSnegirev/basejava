@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIf;
 
+import java.io.File;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
@@ -22,6 +23,7 @@ import static com.urise.webapp.storage.AbstractArrayStorage.STORAGE_LIMIT;
 import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class AbstractStorageTest {
+    protected static final File STORAGE_DIR = new File("./storage");
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
@@ -32,17 +34,20 @@ public abstract class AbstractStorageTest {
     private static final String FULL_NAME_3 = "Sam Cooke";
     private static final String FULL_NAME_4 = "Otis Redding";
     private static final String FULL_NAME_DUMMY = "John Doe";
-
     private static final Resume RESUME_1;
     private static final Resume RESUME_2;
     private static final Resume RESUME_3;
     private static final Resume RESUME_4;
 
     static {
-        RESUME_1 = new Resume(UUID_1, FULL_NAME_1);
-        RESUME_2 = new Resume(UUID_2, FULL_NAME_2);
-        RESUME_3 = new Resume(UUID_3, FULL_NAME_3);
-        RESUME_4 = new Resume(UUID_4, FULL_NAME_4);
+//        RESUME_1 = new Resume(UUID_1, FULL_NAME_1);
+//        RESUME_2 = new Resume(UUID_2, FULL_NAME_2);
+//        RESUME_3 = new Resume(UUID_3, FULL_NAME_3);
+//        RESUME_4 = new Resume(UUID_4, FULL_NAME_4);
+        RESUME_1 = fillTestResume(UUID_1, FULL_NAME_1);
+        RESUME_2 = fillTestResume(UUID_2, FULL_NAME_2);
+        RESUME_3 = fillTestResume(UUID_3, FULL_NAME_3);
+        RESUME_4 = fillTestResume(UUID_4, FULL_NAME_4);
     }
 
     private final Storage storage;
@@ -112,7 +117,7 @@ public abstract class AbstractStorageTest {
     public void update() {
         Resume newResume1 = new Resume(UUID_1, "Marvin Gaye");
         storage.update(newResume1);
-        assertSame(newResume1, storage.get(newResume1.getUuid()));
+        assertEquals(newResume1, storage.get(UUID_1));
     }
 
     @Test

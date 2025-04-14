@@ -8,7 +8,10 @@ public class TextSection extends Section {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private final String body;
+    private String body;
+
+    public TextSection() {
+    }
 
     public TextSection(String body) {
         Objects.requireNonNull(body, "content must not be null");

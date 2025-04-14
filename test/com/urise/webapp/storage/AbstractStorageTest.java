@@ -78,7 +78,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void get() {
-        assertGet(RESUME_1);
+            assertGet(RESUME_1);
         assertGet(RESUME_2);
         assertGet(RESUME_3);
     }

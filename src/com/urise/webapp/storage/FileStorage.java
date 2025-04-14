@@ -2,20 +2,20 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
-import com.urise.webapp.storage.serializer.ObjectStreamSerializer;
+import com.urise.webapp.storage.serializer.StreamSerializer;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class FileStorage extends AbstractStorage<File> {
 
     private final File directory;
-    private final ObjectStreamSerializer serializer;
+    private final StreamSerializer serializer;
 
-    protected FileStorage(File directory, ObjectStreamSerializer serializer) {
+    protected FileStorage(File directory, StreamSerializer serializer) {
         Objects.requireNonNull(directory, "directory must not be null");
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not a directory");
@@ -45,7 +45,7 @@ public class FileStorage extends AbstractStorage<File> {
         try {
             file.createNewFile();
         } catch (IOException e) {
-            throw new StorageException("Couldn't create file " + file.getAbsolutePath(), file.getName(), e);
+            throw new StorageException("Couldn't create file " + file.getName(), resume.getUuid(), e);
         }
         doUpdate(file, resume);
     }
@@ -55,7 +55,7 @@ public class FileStorage extends AbstractStorage<File> {
         try {
             serializer.doWrite(new BufferedOutputStream(new FileOutputStream(file)), resume);
         } catch (IOException e) {
-            throw new StorageException("File write error", file.getName(), e);
+            throw new StorageException("File write error", resume.getUuid(), e);
         }
     }
 
@@ -87,12 +87,7 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     protected List<Resume> getAsList() {
-        File[] files = getFiles();
-        List<Resume> resumes = new ArrayList<>(files.length);
-        for (File file : files) {
-            resumes.add(doGet(file));
-        }
-        return resumes;
+        return Arrays.stream(getFiles()).map(this::doGet).collect(Collectors.toList());
     }
 
     private File[] getFiles() {

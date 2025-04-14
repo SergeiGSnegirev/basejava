@@ -15,16 +15,18 @@ import java.util.stream.Stream;
 public class MainFile {
     public static void main(String[] args) {
 
-        String filePath = ".\\.gitignore";
+        // java.io
+        final String STORAGE_DIR = "storage";
+        final String FILE = ".\\.gitignore";
 
-        File file = new File(filePath);
+        File file = new File(FILE);
         try {
             System.out.println(file.getCanonicalPath());
         } catch (IOException e) {
             throw new RuntimeException("Error", e);
         }
 
-        File dir = new File("./src/com/urise/webapp");
+        File dir = new File(STORAGE_DIR);
         System.out.println(dir.isDirectory());
         String[] list = dir.list();
         if (list != null) {
@@ -33,14 +35,14 @@ public class MainFile {
             }
         }
 
-        try (FileInputStream fis = new FileInputStream(filePath)) {
+        try (FileInputStream fis = new FileInputStream(FILE)) {
             System.out.println(fis.read());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         // check if empty dir throw exception on list() -> NO
-        File emptyDir = new File("./storage");
+        File emptyDir = new File(STORAGE_DIR);
         System.out.println("-".repeat(60));
         String[] fList = emptyDir.list();
         if (fList == null) {
@@ -48,6 +50,11 @@ public class MainFile {
         }
         System.out.println(fList.length);
         System.out.println(Arrays.toString(fList));
+
+        // delete files in dir
+//        System.out.println("-".repeat(60));
+//        Arrays.stream(getFiles(dir)).forEach(File::delete);
+//        System.out.println("dir after delete: " + Arrays.toString(getFiles(dir)));
 
         // java.nio.file
 
@@ -83,7 +90,7 @@ public class MainFile {
         List<Resume> resumes;
         try (Stream<Path> streamDir = Files.list(storageDir)) {
             resumes = streamDir
-                    .map(f -> MainFile.doGet(f))
+                    .map(MainFile::doGet)
                     .collect(Collectors.toList());
         } catch (IOException e) {
             throw new StorageException("Directory read error", e);
@@ -116,7 +123,16 @@ public class MainFile {
     }
 
     // temp static method for testing purpose
-    public static Resume doGet(Path file) {
+    private static File[] getFiles(File directory) {
+        File[] files = directory.listFiles();
+        if (files == null) {
+            throw new StorageException("Directory read error");
+        }
+        return files;
+    }
+
+    // temp static method for testing purpose
+    private static Resume doGet(Path file) {
         try {
             return doRead(new BufferedInputStream(Files.newInputStream(file)));
         } catch (IOException e) {
@@ -125,7 +141,7 @@ public class MainFile {
     }
 
     // temp static method for testing purpose
-    public static Resume doRead(InputStream inputStream) throws IOException {
+    private static Resume doRead(InputStream inputStream) throws IOException {
         try (ObjectInputStream ois = new ObjectInputStream(inputStream)) {
             return (Resume) ois.readObject();
         } catch (ClassNotFoundException e) {

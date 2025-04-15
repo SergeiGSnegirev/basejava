@@ -1,5 +1,7 @@
 package com.urise.webapp.model;
 
+import com.google.gson.annotations.JsonAdapter;
+import com.urise.webapp.util.GsonLocalDateAdapter;
 import com.urise.webapp.util.LocalDateAdapter;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -78,8 +80,10 @@ public class Organization implements Serializable {
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Period implements Serializable {
 
+        @JsonAdapter(GsonLocalDateAdapter.class)
         @XmlJavaTypeAdapter(LocalDateAdapter.class)
         private LocalDate startDate;
+        @JsonAdapter(GsonLocalDateAdapter.class)
         @XmlJavaTypeAdapter(LocalDateAdapter.class)
         private LocalDate endDate;
         private String title;

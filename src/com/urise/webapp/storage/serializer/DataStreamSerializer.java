@@ -73,12 +73,8 @@ public class DataStreamSerializer implements StreamSerializer {
     public Resume doRead(InputStream is) throws IOException {
         try (DataInputStream dis = new DataInputStream(is)) {
             Resume resume = new Resume(dis.readUTF(), dis.readUTF());
-            int size = dis.readInt();
-            for (int i = 0; i < size; i++) {
-                resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
-            }
-            size = dis.readInt();
-            for (int i = 0; i < size; i++) {
+            readUnit(dis, () -> resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
+            readUnit(dis, () -> {
                 SectionType sectionType = SectionType.valueOf(dis.readUTF());
                 Section section = null;
                 switch (sectionType) {
@@ -96,8 +92,19 @@ public class DataStreamSerializer implements StreamSerializer {
                                             dis.readUTF())))));
                 }
                 resume.addSection(sectionType, section);
-            }
+            });
             return resume;
+        }
+    }
+
+    private interface UnitReader {
+        void process() throws IOException;
+    }
+
+    private void readUnit(DataInputStream dis, UnitReader unitReader) throws IOException {
+        int size = dis.readInt();
+        for (int i = 0; i < size; i++) {
+            unitReader.process();
         }
     }
 

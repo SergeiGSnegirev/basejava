@@ -1,4 +1,4 @@
-package com.urise.webapp.model;
+package com.urise.webapp;
 
 import java.util.Arrays;
 import java.util.List;

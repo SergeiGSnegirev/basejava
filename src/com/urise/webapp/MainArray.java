@@ -19,7 +19,7 @@ public class MainArray {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         System.out.print("Введите тип хранилища: 1 - массив, 2 - отсортированный (по uuid) массив," +
-                " 3 - список, 4 - хэш карта, 5 - хэш карта с поиском целиком резюме: ");
+                " 3 - список, 4 - хэш карта, 5 - хэш карта с поиском целиком резюме, 6 - sql db: ");
         String storageType = reader.readLine().trim();
         switch (storageType) {
             case "1" -> STORAGE = new ArrayStorage();
@@ -27,6 +27,7 @@ public class MainArray {
             case "3" -> STORAGE = new ListStorage();
             case "4" -> STORAGE = new MapUuidStorage();
             case "5" -> STORAGE = new MapResumeStorage();
+            case "6" -> STORAGE = new SqlStorage(Config.get().getDbUrl(), Config.get().getDbUser(), Config.get().getDbPassword());
             default -> {
                 STORAGE = new ArrayStorage();
                 System.out.println("Неверный тип хранилища. По умолчанию выбран массив.");

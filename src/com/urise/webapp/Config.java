@@ -11,23 +11,39 @@ public class Config {
     private static final File PROPS = new File("config/resumes.properties");
     private static final Config INSTANCE = new Config();
 
-    private final Properties props = new Properties();
     private final File storageDir;
-
-    public static Config get() {
-        return INSTANCE;
-    }
+    private final String dbUrl, dbUser, dbPassword;
 
     private Config() {
         try (InputStream is = new FileInputStream(PROPS)) {
+            Properties props = new Properties();
             props.load(is);
             storageDir = new File(props.getProperty("storage.dir"));
+            dbUrl = props.getProperty("db.url");
+            dbUser = props.getProperty("db.user");
+            dbPassword = props.getProperty("db.password");
         } catch (IOException e) {
             throw new IllegalStateException("Invalid config file " + PROPS.getAbsolutePath());
         }
     }
 
+    public static Config get() {
+        return INSTANCE;
+    }
+
     public File getStorageDir() {
         return storageDir;
+    }
+
+    public String getDbUrl() {
+        return dbUrl;
+    }
+
+    public String getDbUser() {
+        return dbUser;
+    }
+
+    public String getDbPassword() {
+        return dbPassword;
     }
 }

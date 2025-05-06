@@ -1,5 +1,6 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.Config;
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.exception.StorageException;
@@ -23,7 +24,9 @@ import static com.urise.webapp.storage.AbstractArrayStorage.STORAGE_LIMIT;
 import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class AbstractStorageTest {
-    protected static final File STORAGE_DIR = new File("./storage");
+
+    //    protected static final File STORAGE_DIR = new File("./storage");
+    protected static final File STORAGE_DIR = Config.get().getStorageDir();
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
@@ -78,7 +81,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void get() {
-            assertGet(RESUME_1);
+        assertGet(RESUME_1);
         assertGet(RESUME_2);
         assertGet(RESUME_3);
     }

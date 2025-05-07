@@ -1,23 +1,20 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
-import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
-import com.urise.webapp.sql.ConnectionFactory;
+import com.urise.webapp.sql.SqlHelper;
 
-import java.sql.*;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SqlStorage implements Storage {
 
-    public final ConnectionFactory connectionFactory;
     private final SqlHelper sqlHelper;
 
     public SqlStorage(String dbUrl, String dbUser, String dbPassword) {
-        connectionFactory = () -> DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-        sqlHelper = new SqlHelper();
+        sqlHelper = new SqlHelper(() -> DriverManager.getConnection(dbUrl, dbUser, dbPassword));
     }
 
     @Override
@@ -33,7 +30,7 @@ public class SqlStorage implements Storage {
         sqlHelper.execute("INSERT INTO resume (uuid, full_name) VALUES (?,?)", ps -> {
             ps.setString(1, resume.getUuid());
             ps.setString(2, resume.getFullName());
-            ps.executeUpdate();
+            ps.execute();
             return null;
         });
     }
@@ -76,7 +73,7 @@ public class SqlStorage implements Storage {
     @Override
     public void clear() {
         sqlHelper.execute("DELETE FROM resume", ps -> {
-            ps.executeUpdate();
+            ps.execute();
             return null;
         });
     }
@@ -87,28 +84,9 @@ public class SqlStorage implements Storage {
             ResultSet rs = ps.executeQuery();
             List<Resume> resumeList = new ArrayList<>();
             while (rs.next()) {
-                resumeList.add(new Resume(rs.getString("uuid").trim(), rs.getString("full_name")));
+                resumeList.add(new Resume(rs.getString("uuid"), rs.getString("full_name")));
             }
             return resumeList;
         });
-    }
-
-    private interface SqlExecutor<T> {
-        T execute(PreparedStatement ps) throws SQLException;
-    }
-
-    class SqlHelper {
-        private <T> T execute(String sql, SqlExecutor<T> executor) {
-            try (Connection conn = connectionFactory.getConnection();
-                 PreparedStatement ps = conn.prepareStatement(sql)) {
-                return executor.execute(ps);
-            } catch (SQLException e) {
-                if (e.getSQLState().equals("23505")) {
-                    throw new ExistStorageException(sql);
-                }
-//                System.out.println("getSQLState = " + e.getSQLState());
-                throw new StorageException(e);
-            }
-        }
     }
 }

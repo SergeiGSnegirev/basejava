@@ -16,6 +16,7 @@ import java.io.File;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static com.urise.webapp.model.ContactType.SKYPE;
 import static com.urise.webapp.model.ResumeTestData.fillTestResume;
@@ -25,13 +26,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class AbstractStorageTest {
 
-    //    protected static final File STORAGE_DIR = new File("./storage");
     protected static final File STORAGE_DIR = Config.get().getStorageDir();
-    private static final String UUID_1 = "uuid1";
-    private static final String UUID_2 = "uuid2";
-    private static final String UUID_3 = "uuid3";
-    private static final String UUID_4 = "uuid4";
-    private static final String DUMMY = "dummy";
+    private static final String UUID_1 = UUID.randomUUID().toString();
+    private static final String UUID_2 = UUID.randomUUID().toString();
+    private static final String UUID_3 = UUID.randomUUID().toString();
+    private static final String UUID_4 = UUID.randomUUID().toString();
+    private static final String DUMMY = UUID.randomUUID().toString();
     private static final String FULL_NAME_1 = "James Brown";
     private static final String FULL_NAME_2 = "Ray Charles";
     private static final String FULL_NAME_3 = "Sam Cooke";

@@ -27,7 +27,7 @@ public class MainArray {
             case "3" -> STORAGE = new ListStorage();
             case "4" -> STORAGE = new MapUuidStorage();
             case "5" -> STORAGE = new MapResumeStorage();
-            case "6" -> STORAGE = new SqlStorage(Config.get().getDbUrl(), Config.get().getDbUser(), Config.get().getDbPassword());
+            case "6" -> STORAGE = Config.get().getStorageDb();
             default -> {
                 STORAGE = new ArrayStorage();
                 System.out.println("Неверный тип хранилища. По умолчанию выбран массив.");

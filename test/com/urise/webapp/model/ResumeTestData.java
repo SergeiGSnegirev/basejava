@@ -1,14 +1,9 @@
 package com.urise.webapp.model;
 
-import java.time.Month;
-import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.List;
 import java.util.Map;
 
 import static com.urise.webapp.model.ContactType.*;
-import static com.urise.webapp.model.Organization.Period;
-import static com.urise.webapp.model.SectionType.*;
 
 public class ResumeTestData {
 
@@ -32,6 +27,8 @@ public class ResumeTestData {
         contacts.put(HOME_PAGE, "http://alexivanov.ru/");
         resume.setContacts(contacts);
 
+        // temporary commented for SQL I
+/*
         // fill SECTIONS
         Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
 
@@ -151,6 +148,7 @@ public class ResumeTestData {
                 ))));
 
         resume.setSections(sections);
+*/
         return resume;
     }
 }

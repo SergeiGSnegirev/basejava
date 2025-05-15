@@ -4,10 +4,7 @@ import com.urise.webapp.Config;
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.exception.StorageException;
-import com.urise.webapp.model.ListSection;
-import com.urise.webapp.model.OrganizationSection;
-import com.urise.webapp.model.Resume;
-import com.urise.webapp.model.TextSection;
+import com.urise.webapp.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIf;
@@ -119,6 +116,8 @@ public abstract class AbstractStorageTest {
     @Test
     public void update() {
         Resume newResume1 = new Resume(UUID_1, "Marvin Gaye");
+        newResume1.addContact(ContactType.EMAIL, "mgaye@gmail.com");
+        newResume1.addContact(ContactType.MOBILE_PHONE, "+1 323-682-8697");
         storage.update(newResume1);
         assertEquals(newResume1, storage.get(UUID_1));
     }

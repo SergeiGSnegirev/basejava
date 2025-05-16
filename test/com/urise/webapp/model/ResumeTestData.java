@@ -1,9 +1,11 @@
 package com.urise.webapp.model;
 
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.urise.webapp.model.ContactType.*;
+import static com.urise.webapp.model.SectionType.*;
 
 public class ResumeTestData {
 
@@ -27,8 +29,6 @@ public class ResumeTestData {
         contacts.put(HOME_PAGE, "http://alexivanov.ru/");
         resume.setContacts(contacts);
 
-        // temporary commented for SQL I
-/*
         // fill SECTIONS
         Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
 
@@ -76,6 +76,8 @@ public class ResumeTestData {
                 "Родной русский, английский \"upper intermediate\""
         )));
 
+        // temporary commented for SQL II w/o EXPERIENCE & EDUCATION
+/*
         // fill EXPERIENCE
         sections.put(EXPERIENCE, new OrganizationSection(
                 new ArrayList<>(List.of(new Organization("Java Online Projects", "http://javaops.ru/",
@@ -146,9 +148,8 @@ public class ResumeTestData {
                                                 "6 месяцев обучения цифровым телефонным сетям (Москва)",
                                                 ""))))
                 ))));
-
-        resume.setSections(sections);
 */
+        resume.setSections(sections);
         return resume;
     }
 }

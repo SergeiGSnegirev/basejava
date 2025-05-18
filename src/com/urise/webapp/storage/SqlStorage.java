@@ -205,17 +205,20 @@ public class SqlStorage implements Storage {
     }
 
     private void addSection(ResultSet rs, Resume resume) throws SQLException {
-        SectionType sectionType = SectionType.valueOf(rs.getString("type"));
-        Section section = null;
-        switch (sectionType) {
-            case PERSONAL, OBJECTIVE -> section = new TextSection(rs.getString("value"));
-            case ACHIEVEMENT, QUALIFICATIONS -> section =
-                    new ListSection(rs.getString("value").split("\n"));
+        String type = rs.getString("type");
+        if (type != null) {
+            SectionType sectionType = SectionType.valueOf(type);
+            Section section = null;
+            switch (sectionType) {
+                case PERSONAL, OBJECTIVE -> section = new TextSection(rs.getString("value"));
+                case ACHIEVEMENT, QUALIFICATIONS -> section =
+                        new ListSection(rs.getString("value").split("\n"));
 //            case EXPERIENCE, EDUCATION -> {
 //            }
-            default -> {
+                default -> {
+                }
             }
+            resume.addSection(sectionType, section);
         }
-        resume.addSection(sectionType, section);
     }
 }

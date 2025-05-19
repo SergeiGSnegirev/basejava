@@ -1,10 +1,13 @@
 package com.urise.webapp.model;
 
+import java.time.Month;
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.urise.webapp.model.ContactType.*;
+import static com.urise.webapp.model.Organization.Period;
 import static com.urise.webapp.model.SectionType.*;
 
 public class ResumeTestData {
@@ -76,13 +79,11 @@ public class ResumeTestData {
                 "Родной русский, английский \"upper intermediate\""
         )));
 
-        // temporary commented for SQL II w/o EXPERIENCE & EDUCATION
-/*
         // fill EXPERIENCE
         sections.put(EXPERIENCE, new OrganizationSection(
                 new ArrayList<>(List.of(new Organization("Java Online Projects", "http://javaops.ru/",
                                 new ArrayList<>(List.of(
-                                        new Organization.Period(2013, Month.OCTOBER,
+                                        new Period(2013, Month.OCTOBER,
                                                 "Автор проекта.",
                                                 "Создание, организация и проведение Java онлайн проектов и стажировок.")))),
                         new Organization("Wrike", "https://www.wrike.com/",
@@ -148,7 +149,7 @@ public class ResumeTestData {
                                                 "6 месяцев обучения цифровым телефонным сетям (Москва)",
                                                 ""))))
                 ))));
-*/
+
         resume.setSections(sections);
         return resume;
     }

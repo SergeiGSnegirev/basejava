@@ -4,15 +4,13 @@ import com.urise.webapp.Config;
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.exception.StorageException;
-import com.urise.webapp.model.ContactType;
-import com.urise.webapp.model.ListSection;
-import com.urise.webapp.model.Resume;
-import com.urise.webapp.model.TextSection;
+import com.urise.webapp.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIf;
 
 import java.io.File;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -154,8 +152,7 @@ public abstract class AbstractStorageTest {
         Resume checkResume = storage.get("fully-filled");
         assertEquals(7, checkResume.getContacts().size());
         assertEquals("skype:alex.ivanov", checkResume.getContacts().get(SKYPE));
-//        assertEquals(6, checkResume.getSections().size()); // temporary for SQL II w/o EXPERIENCE & EDUCATION
-        assertEquals(4, checkResume.getSections().size());
+        assertEquals(6, checkResume.getSections().size());
         TextSection personal = (TextSection) checkResume.getSections().get(PERSONAL);
         assertTrue(personal.getBody().startsWith("Аналитический"));
         TextSection objective = (TextSection) checkResume.getSections().get(OBJECTIVE);
@@ -165,8 +162,6 @@ public abstract class AbstractStorageTest {
         ListSection qualifications = (ListSection) checkResume.getSections().get(QUALIFICATIONS);
         assertEquals(11, qualifications.getItems().size());
         assertTrue(qualifications.getItems().get(5).startsWith("Java"));
-        // temporary for SQL II w/o EXPERIENCE & EDUCATION
-/*
         OrganizationSection experience = (OrganizationSection) checkResume.getSections().get(EXPERIENCE);
         assertEquals(4, experience.getOrganizations().size());
         assertEquals("Wrike", experience.getOrganizations().get(1).getHomePage().getName());
@@ -178,7 +173,6 @@ public abstract class AbstractStorageTest {
         assertEquals("http://www.siemens.ru/", education.getOrganizations().get(2).getHomePage().getUrl());
         assertEquals("09/1997", education.getOrganizations().get(3).getPeriods().get(0).
                 getStartDate().format(DateTimeFormatter.ofPattern("MM/yyyy")));
-*/
     }
 
     private void assertSize(int size) {

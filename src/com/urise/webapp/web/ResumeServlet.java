@@ -1,7 +1,6 @@
 package com.urise.webapp.web;
 
 import com.urise.webapp.Config;
-import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.ContactType;
 import com.urise.webapp.model.Resume;
 import com.urise.webapp.storage.Storage;
@@ -12,9 +11,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ResumeServlet extends HttpServlet {
 
@@ -28,53 +24,51 @@ public class ResumeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html; charset=UTF-8");
 
         String uuid = request.getParameter("uuid");
-        List<Resume> resumes = new ArrayList<>();
-        if (uuid == null) {
-            resumes = storage.getAllSorted();
-        } else {
-            try {
-                resumes.add(storage.get(uuid));
-            } catch (NotExistStorageException ignored) {
+        String action = request.getParameter("action");
+
+        if (action == null) {
+            request.setAttribute("resumes", storage.getAllSorted());
+            request.getRequestDispatcher("WEB-INF/jsp/list.jsp").forward(request, response);
+            return;
+        }
+        Resume resume = null;
+        switch (action) {
+            case "delete" -> {
+                storage.delete(uuid);
+                response.sendRedirect("resume");
+                return;
             }
+            case "view", "edit" -> resume = storage.get(uuid);
+            default -> throw new IllegalArgumentException("Action " + action + " is illegal");
         }
-        Writer writer = response.getWriter();
-        writer.write("""
-                <html>
-                <head>
-                    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
-                    <link href='css/table.css' rel='stylesheet' type='text/css'/>
-                    <title>Список всех резюме</title>
-                </head>
-                <body>
-                <h1>Список резюме</h1>
-                <section>
-                <table>
-                    <tr>
-                        <th>Имя</th>
-                        <th>Email</th>
-                    </tr>
-                """);
-        for (Resume resume : resumes) {
-            writer.write("    <tr>\n" +
-                         "        <td><a href='resume?uuid=" + resume.getUuid() + "'>" + resume.getFullName() + "</a></td>\n" +
-                         "        <td>" + resume.getContact(ContactType.EMAIL) + "</td>\n" +
-                         "    </tr>\n");
+        if (resume != null) {
+            request.setAttribute("resume", resume);
+            request.getRequestDispatcher("view".equals(action) ? "WEB-INF/jsp/view.jsp" : "WEB-INF/jsp/edit.jsp")
+                    .forward(request, response);
         }
-        writer.write("""
-                </table>
-                </section>
-                </body>
-                </html>
-                """);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        request.setCharacterEncoding("UTF-8");
+        String uuid = request.getParameter("uuid");
+        String fullName = request.getParameter("fullName");
+
+        Resume resume = storage.get(uuid);
+        resume.setFullName(fullName);
+
+        for (ContactType type : ContactType.values()) {
+            String value = request.getParameter(type.name());
+            if (value != null && !value.trim().isEmpty()) {
+                resume.addContact(type, value);
+            } else {
+                resume.getContacts().remove(type);
+            }
+        }
+        storage.update(resume);
+        response.sendRedirect("resume");
     }
 }

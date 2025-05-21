@@ -151,7 +151,7 @@ public abstract class AbstractStorageTest {
         storage.save(filledResume);
         Resume checkResume = storage.get("fully-filled");
         assertEquals(7, checkResume.getContacts().size());
-        assertEquals("skype:alex.ivanov", checkResume.getContacts().get(SKYPE));
+        assertEquals("david.bowie", checkResume.getContacts().get(SKYPE));
         assertEquals(6, checkResume.getSections().size());
         TextSection personal = (TextSection) checkResume.getSections().get(PERSONAL);
         assertTrue(personal.getBody().startsWith("Аналитический"));

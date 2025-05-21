@@ -48,6 +48,10 @@ public class Resume implements Comparable<Resume>, Serializable {
         return fullName;
     }
 
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
     public Map<ContactType, String> getContacts() {
         return contacts;
     }
@@ -81,7 +85,7 @@ public class Resume implements Comparable<Resume>, Serializable {
         if (!(object instanceof Resume resume)) return false;
 
         return uuid.equals(resume.uuid) && fullName.equals(resume.fullName) &&
-                contacts.equals(resume.contacts) && sections.equals(resume.sections);
+               contacts.equals(resume.contacts) && sections.equals(resume.sections);
     }
 
     @Override

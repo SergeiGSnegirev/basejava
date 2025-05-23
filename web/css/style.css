@@ -7,10 +7,29 @@ section {
     margin: 20px;
 }
 
+header {
+    background: none repeat scroll 0 0 #A6C9E2;
+    color: #2E6E9E;
+    font-size: 15px;
+    padding: 5px 20px;
+}
+
+footer {
+    background: none repeat scroll 0 0 #A6C9E2;
+    color: #2E6E9E;
+    font-size: 15px;
+    padding: 5px 20px;
+    margin: 20px 0;
+}
+
 h2, h3 {
+    background: #C1D9ED;
     margin: 15px 0 5px;
-    font-size: 120%;
-    background: #D6EEEE;
+    font-size: 100%;
+    font-style: normal;
+    font-weight: normal;
+    color: black;
+    padding: 3px 8px;
 }
 
 dl {
@@ -37,29 +56,97 @@ dd {
 }
 
 table, th, td {
-    border: 1px solid black;
+    /*border: 1px solid black;*/
     border-collapse: collapse;
     text-align: left;
-    padding: 5px 10px;
-    margin: 20px 0;
 }
 
-tr:nth-child(even) {
-    background-color: #D6EEEE;
+ul {
+    margin: 10px 0;
+    list-style-type: disc;
 }
 
-header {
-    background: none repeat scroll 0 0 #A6C9E2;
-    color: #2E6E9E;
-    font-size: 15px;
-    padding: 5px 20px;
+li {
+    margin: 10px 0;
 }
 
-footer {
-    background: none repeat scroll 0 0 #A6C9E2;
-    color: #2E6E9E;
-    font-size: 15px;
-    padding: 5px 20px;
-    margin: 20px 0;
+input {
+    padding: 3px 5px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    background: #F8F8F8;
 }
 
+input[type=text]:focus {
+    border: 1px solid #2E6E9E;
+    box-shadow: 0 0 5px #719ECE;
+}
+
+textarea {
+    width: 100%;
+    padding: 5px 5px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #F8F8F8;
+    font-family: Tahoma, Verdana, sans-serif;
+}
+
+textarea:focus {
+    border-color: #2E6E9E;
+    box-shadow: 0 0 5px #719ECE;
+    outline: none;
+}
+
+.button {
+    background-color: #2E6E9E;
+    border: 1px solid black;
+    color: white;
+    padding: 5px 16px;
+    margin: 10px 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: white;
+    color: black;
+}
+
+a[href^="tel:"] {
+    padding-left: 20px !important;
+    background: url(../img/phone.png) no-repeat center left;
+}
+
+a[href^="skype:"] {
+    padding-left: 20px !important;
+    background: url(../img/skype.png) no-repeat center left;
+}
+
+a[href^="mailto:"] {
+    padding-left: 20px !important;
+    background: url(../img/email.png) no-repeat center left;
+}
+
+a[href^="https://stackoverflow.com"] {
+    padding-left: 20px !important;
+    background: url(../img/so.png) no-repeat center left;
+}
+
+a[href^="https://www.linkedin.com"] {
+    padding-left: 20px !important;
+    background: url(../img/lin.png) no-repeat center left;
+}
+
+a[href*="github."] {
+    padding-left: 20px !important;
+    background: url(../img/gh.png) no-repeat center left;
+}
+
+a[href^="https://t.me"] {
+    padding-left: 20px !important;
+    background: url(../img/telegram.png) no-repeat center left;
+}

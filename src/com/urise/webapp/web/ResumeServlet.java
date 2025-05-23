@@ -1,8 +1,7 @@
 package com.urise.webapp.web;
 
 import com.urise.webapp.Config;
-import com.urise.webapp.model.ContactType;
-import com.urise.webapp.model.Resume;
+import com.urise.webapp.model.*;
 import com.urise.webapp.storage.Storage;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -33,15 +32,17 @@ public class ResumeServlet extends HttpServlet {
             request.getRequestDispatcher("WEB-INF/jsp/list.jsp").forward(request, response);
             return;
         }
-        Resume resume = null;
+        Resume resume;
         switch (action) {
             case "delete" -> {
                 storage.delete(uuid);
                 response.sendRedirect("resume");
                 return;
             }
-            case "view", "edit" -> resume = storage.get(uuid);
-            default -> throw new IllegalArgumentException("Action " + action + " is illegal");
+            case "view" -> resume = storage.get(uuid);
+            case "edit" -> resume = prepareResumeToEdit(storage.get(uuid));
+            case "add" -> resume = prepareResumeToEdit(new Resume());
+            default -> throw new IllegalArgumentException("Action " + action + " is unknown");
         }
         if (resume != null) {
             request.setAttribute("resume", resume);
@@ -55,10 +56,16 @@ public class ResumeServlet extends HttpServlet {
 
         request.setCharacterEncoding("UTF-8");
         String uuid = request.getParameter("uuid");
-        String fullName = request.getParameter("fullName");
+        String fullName = request.getParameter("fullName").trim();
+        boolean newResume = uuid == null || uuid.isEmpty();
 
-        Resume resume = storage.get(uuid);
-        resume.setFullName(fullName);
+        Resume resume;
+        if (newResume) {
+            resume = new Resume(fullName);
+        } else {
+            resume = storage.get(uuid);
+            resume.setFullName(fullName);
+        }
 
         for (ContactType type : ContactType.values()) {
             String value = request.getParameter(type.name());
@@ -68,7 +75,40 @@ public class ResumeServlet extends HttpServlet {
                 resume.getContacts().remove(type);
             }
         }
-        storage.update(resume);
+
+        for (SectionType type : SectionType.values()) {
+            String value = request.getParameter(type.name());
+            if (value != null && !value.trim().isEmpty()) {
+                switch (type) {
+                    case PERSONAL, OBJECTIVE -> resume.addSection(type, new TextSection(value.trim()));
+                    case ACHIEVEMENT, QUALIFICATIONS ->
+                            resume.addSection(type, new ListSection(value.trim().split("\n")));
+                    case EXPERIENCE, EDUCATION -> {
+                    } // stub
+                    default -> throw new IllegalArgumentException("Section type " + type + " is unknown");
+                }
+            }
+        }
+        if (newResume) {
+            storage.save(resume);
+        } else {
+            storage.update(resume);
+        }
         response.sendRedirect("resume");
+    }
+
+    private static Resume prepareResumeToEdit(Resume resume) {
+        for (SectionType sectionType : SectionType.values()) {
+            Section section = resume.getSection(sectionType);
+            if (section == null) {
+                switch (sectionType) {
+                    case PERSONAL, OBJECTIVE -> section = new TextSection("");
+                    case ACHIEVEMENT, QUALIFICATIONS -> section = new ListSection("");
+                    case EXPERIENCE, EDUCATION -> section = new OrganizationSection(); // stub
+                }
+                resume.addSection(sectionType, section);
+            }
+        }
+        return resume;
     }
 }
